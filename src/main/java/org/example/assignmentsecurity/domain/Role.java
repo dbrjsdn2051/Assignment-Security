@@ -1,7 +1,6 @@
 package org.example.assignmentsecurity.domain;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum Role {
