@@ -1,6 +1,7 @@
 package org.example.assignmentsecurity.controller.dto.rep;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.assignmentsecurity.domain.user.Role;
@@ -9,6 +10,7 @@ import org.example.assignmentsecurity.domain.user.User;
 import java.util.List;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCreateRepDto {
