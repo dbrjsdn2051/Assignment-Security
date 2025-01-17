@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.example.assignmentsecurity.common.error.BusinessException;
+import org.example.assignmentsecurity.common.error.ErrorCode;
 import org.example.assignmentsecurity.common.error.SecurityFilterChainException;
 import org.example.assignmentsecurity.common.format.ApiResult;
 import org.springframework.http.MediaType;
@@ -28,10 +30,18 @@ public class GlobalFilterExceptionHandler extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (SecurityFilterChainException ex) {
-            response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
-            response.setStatus(ex.getErrorCode().getStatus());
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-            response.getWriter().write(objectMapper.writeValueAsString(ApiResult.error(ex.getErrorCode())));
+            errorResponse(response, ex.getErrorCode());
+        } catch (BusinessException ex) {
+            errorResponse(response, ex.getErrorCode());
+        } catch (Exception e) {
+            errorResponse(response, ErrorCode.SERVER_ERROR);
         }
+    }
+
+    private void errorResponse(HttpServletResponse response, ErrorCode ex) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(ex.getStatus());
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResult.error(ex)));
     }
 }
