@@ -16,6 +16,8 @@ public enum ErrorCode {
     JSON_PARSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Json 파싱 에러입니다."),
     INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED.value(), "인증에 실패하였습니다."),
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED.value(), "토큰 정보를 찾을 수 없습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "해당 유저를 찾을 수 없습니다."),
+    MISS_MATCH_PASSWORD(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 맞지 않습니다."),
 
     // User Domain Exception
     EXISTS_ALREADY_USER(HttpStatus.BAD_REQUEST.value(), "해당 닉네임을 가진 유저가 이미 존재합니다."),
