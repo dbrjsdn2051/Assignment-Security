@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/auth/signin")
+    @PostMapping("/auth/signup")
     public ResponseEntity<ApiResult<UserCreateRespDto>> signin(@RequestBody UserCreateRepDto dto) {
         UserCreateRespDto respDto = userService.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResult.success(respDto));
