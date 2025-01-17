@@ -5,7 +5,10 @@ import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.example.assignmentsecurity.config.security.filter.GlobalFilterExceptionHandler;
 import org.example.assignmentsecurity.config.security.filter.JwtAuthorizationFilter;
+import org.example.assignmentsecurity.config.security.filter.JwtRefreshFilter;
 import org.example.assignmentsecurity.config.security.filter.LoginAuthenticationFilter;
+import org.example.assignmentsecurity.domain.token.RefreshTokenRepository;
+import org.example.assignmentsecurity.domain.user.UserRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +35,8 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
@@ -55,10 +60,15 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new GlobalFilterExceptionHandler(objectMapper), SecurityContextHolderFilter.class)
+                .addFilterBefore(new JwtRefreshFilter(refreshTokenRepository, objectMapper, jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthorizationFilter(jwtProvider), BasicAuthenticationFilter.class)
-                .addFilterBefore(new LoginAuthenticationFilter(
-                        authenticationManager(authenticationConfiguration), jwtProvider, objectMapper
-                ), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        new LoginAuthenticationFilter(
+                                authenticationManager(authenticationConfiguration),
+                                jwtProvider,
+                                objectMapper, userRepository,
+                                refreshTokenRepository
+                        ), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();
