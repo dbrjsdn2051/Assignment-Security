@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .anonymous(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new LoginAuthenticationFilter(
                         authenticationManager(authenticationConfiguration), jwtProvider, objectMapper
                 ), UsernamePasswordAuthenticationFilter.class)
