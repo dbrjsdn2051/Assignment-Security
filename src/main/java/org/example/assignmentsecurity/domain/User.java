@@ -2,6 +2,7 @@ package org.example.assignmentsecurity.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,13 @@ public class User {
     )
     @Enumerated(EnumType.STRING)
     private List<Role> authorities = new ArrayList<>();
+
+    @Builder
+    public User(Long id, String username, String password, String nickname, List<Role> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.authorities = authorities;
+    }
 }
