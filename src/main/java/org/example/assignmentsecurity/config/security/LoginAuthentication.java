@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

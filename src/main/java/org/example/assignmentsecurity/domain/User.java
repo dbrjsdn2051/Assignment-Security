@@ -42,4 +42,8 @@ public class User {
         this.nickname = nickname;
         this.authorities = authorities;
     }
+
+    public void addRole(Role role) {
+        this.authorities.add(role);
+    }
 }

@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -16,6 +16,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -74,7 +75,11 @@ public class JwtProvider {
         String nickname = claims.getBody().getSubject();
         List<?> roles = claims.getBody().get("Role", List.class);
         List<Role> authorities = roles.stream()
-                .map(e -> Role.valueOf(e.toString()))
+                .map(role -> {
+                    Map<String, String> roleMap = (Map<String, String>) role;
+                    String authority = roleMap.get("authority");
+                    return Role.valueOf(authority.replace("ROLE_", "")); // ROLE_ 접두사 제거
+                })
                 .toList();
 
         return new AuthUser(nickname, authorities);

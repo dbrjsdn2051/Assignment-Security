@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.example.assignmentsecurity.common.error.ErrorCode;

@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -8,6 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.assignmentsecurity.common.error.ErrorCode;
 import org.example.assignmentsecurity.common.error.SecurityFilterChainException;
 import org.example.assignmentsecurity.common.format.ApiResult;
+import org.example.assignmentsecurity.config.security.JwtProvider;
+import org.example.assignmentsecurity.config.security.LoginAuthentication;
+import org.example.assignmentsecurity.config.security.dto.LoginReqDto;
+import org.example.assignmentsecurity.config.security.dto.LoginRespDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +55,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         String token = jwtProvider.generateToken(authResult);
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setHeader(JwtProvider.AUTHENTICATION_HEADER_PREFIX, token);
         response.getWriter().write(objectMapper.writeValueAsString(new LoginRespDto(token)));
     }
 

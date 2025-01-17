@@ -2,7 +2,7 @@ package org.example.assignmentsecurity.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.assignmentsecurity.common.format.ApiResult;
-import org.example.assignmentsecurity.config.AuthUser;
+import org.example.assignmentsecurity.config.security.AuthUser;
 import org.example.assignmentsecurity.controller.dto.rep.UserCreateRepDto;
 import org.example.assignmentsecurity.controller.dto.resp.UserCreateRespDto;
 import org.example.assignmentsecurity.controller.dto.resp.UserInfoRespDto;

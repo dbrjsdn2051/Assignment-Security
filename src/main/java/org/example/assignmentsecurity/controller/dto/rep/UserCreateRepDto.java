@@ -3,7 +3,10 @@ package org.example.assignmentsecurity.controller.dto.rep;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.assignmentsecurity.domain.Role;
 import org.example.assignmentsecurity.domain.User;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -19,6 +22,7 @@ public class UserCreateRepDto {
                 .nickname(dto.getNickname())
                 .username(dto.getUsername())
                 .password(encodedPassword)
+                .authorities(List.of(Role.USER))
                 .build();
     }
 }

@@ -1,8 +1,11 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import org.example.assignmentsecurity.config.security.filter.GlobalFilterExceptionHandler;
+import org.example.assignmentsecurity.config.security.filter.JwtAuthorizationFilter;
+import org.example.assignmentsecurity.config.security.filter.LoginAuthenticationFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 @Configuration
@@ -51,7 +55,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new GlobalFilterExceptionHandler(objectMapper), SecurityContextHolderFilter.class)
-                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider), BasicAuthenticationFilter.class)
                 .addFilterBefore(new LoginAuthenticationFilter(
                         authenticationManager(authenticationConfiguration), jwtProvider, objectMapper
                 ), UsernamePasswordAuthenticationFilter.class)

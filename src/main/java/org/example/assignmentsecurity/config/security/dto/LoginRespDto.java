@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.config;
+package org.example.assignmentsecurity.config.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

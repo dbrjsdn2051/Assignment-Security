@@ -10,6 +10,7 @@ import org.example.assignmentsecurity.domain.User;
 import org.example.assignmentsecurity.domain.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional
     public UserCreateRespDto register(UserCreateRepDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
