@@ -19,6 +19,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "해당 유저를 찾을 수 없습니다."),
     MISS_MATCH_PASSWORD(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 맞지 않습니다."),
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버 에러가 발생하였습니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED.value(), "Refresh 토큰을 찾을 수 없습니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.FORBIDDEN.value(), "Refresh 토큰이 만료되었습니다."),
 
     // User Domain Exception
     EXISTS_ALREADY_USER(HttpStatus.BAD_REQUEST.value(), "해당 닉네임을 가진 유저가 이미 존재합니다."),
