@@ -5,6 +5,7 @@ import org.example.assignmentsecurity.common.error.BusinessException;
 import org.example.assignmentsecurity.common.error.ErrorCode;
 import org.example.assignmentsecurity.controller.dto.rep.UserCreateRepDto;
 import org.example.assignmentsecurity.controller.dto.resp.UserCreateRespDto;
+import org.example.assignmentsecurity.controller.dto.resp.UserInfoRespDto;
 import org.example.assignmentsecurity.domain.User;
 import org.example.assignmentsecurity.domain.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,5 +29,12 @@ public class UserService {
         User user = UserCreateRepDto.from(dto, encodedPassword);
         User savedUser = userRepository.save(user);
         return new UserCreateRespDto(savedUser);
+    }
+
+    public UserInfoRespDto findUser(String nickname) {
+        User findUser = userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        return new UserInfoRespDto(findUser);
     }
 }
