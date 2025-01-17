@@ -29,6 +29,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         if (request.getRequestURI().contains("/auth")) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         String tokenValue = request.getHeader(JwtProvider.AUTHENTICATION_HEADER_PREFIX);
