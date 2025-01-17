@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 @Getter
 public class AuthUser {
 
-    private final String email;
+    private final String nickname;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public AuthUser(String email, List<Role> role) {
-        this.email = email;
+    public AuthUser(String nickname, List<Role> role) {
+        this.nickname = nickname;
         this.authorities = role.stream()
                 .map(e -> new SimpleGrantedAuthority(e.getAuthorityName())).collect(Collectors.toList());
     }
