@@ -7,7 +7,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.example.assignmentsecurity.common.error.ErrorCode;
 import org.example.assignmentsecurity.common.error.SecurityFilterChainException;
-import org.example.assignmentsecurity.domain.Role;
+import org.example.assignmentsecurity.domain.user.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

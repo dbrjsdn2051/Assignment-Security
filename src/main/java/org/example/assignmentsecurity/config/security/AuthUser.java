@@ -1,8 +1,8 @@
 package org.example.assignmentsecurity.config.security;
 
 import lombok.Getter;
-import org.example.assignmentsecurity.domain.Role;
-import org.example.assignmentsecurity.domain.User;
+import org.example.assignmentsecurity.domain.user.Role;
+import org.example.assignmentsecurity.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

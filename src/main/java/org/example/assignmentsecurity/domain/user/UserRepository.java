@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.domain;
+package org.example.assignmentsecurity.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

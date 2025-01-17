@@ -1,4 +1,4 @@
-package org.example.assignmentsecurity.domain;
+package org.example.assignmentsecurity.domain.user;
 
 import lombok.Getter;
 

@@ -3,8 +3,8 @@ package org.example.assignmentsecurity.controller.dto.rep;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.assignmentsecurity.domain.Role;
-import org.example.assignmentsecurity.domain.User;
+import org.example.assignmentsecurity.domain.user.Role;
+import org.example.assignmentsecurity.domain.user.User;
 
 import java.util.List;
 
