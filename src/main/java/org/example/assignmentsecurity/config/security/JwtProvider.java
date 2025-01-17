@@ -25,9 +25,11 @@ public class JwtProvider {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 7;
+    public static final long REFRESH_TOKEN_EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 30;
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String AUTHENTICATION_HEADER_PREFIX = "Authorization";
+    public static final String COOKIE_VALUE_PREFIX = "refresh_token";
 
     private Key key;
 
@@ -39,11 +41,11 @@ public class JwtProvider {
         key = Keys.hmacShaKeyFor(decode);
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) {
         return TOKEN_PREFIX + Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("Role", authentication.getAuthorities())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(key, signatureAlgorithm)
                 .compact();
     }
@@ -85,4 +87,12 @@ public class JwtProvider {
         return new AuthUser(nickname, authorities);
     }
 
+    public String generateRefreshToken(Authentication authentication) {
+        return TOKEN_PREFIX + Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim("Role", authentication.getAuthorities())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
+                .signWith(key, signatureAlgorithm)
+                .compact();
+    }
 }
