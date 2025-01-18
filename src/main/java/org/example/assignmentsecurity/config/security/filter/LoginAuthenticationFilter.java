@@ -96,7 +96,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader(JwtProvider.AUTHENTICATION_HEADER_PREFIX, accessToken);
-        response.getWriter().write(objectMapper.writeValueAsString(new LoginRespDto(accessToken)));
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResult.success(new LoginRespDto(accessToken))));
     }
 
     private void addCookie(HttpServletResponse response, String refreshToken) {

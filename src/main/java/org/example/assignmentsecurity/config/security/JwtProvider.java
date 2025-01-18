@@ -80,7 +80,7 @@ public class JwtProvider {
                 .map(role -> {
                     Map<String, String> roleMap = (Map<String, String>) role;
                     String authority = roleMap.get("authority");
-                    return Role.valueOf(authority.replace("ROLE_", "")); // ROLE_ 접두사 제거
+                    return Role.valueOf(authority.replace("ROLE_", ""));
                 })
                 .toList();
 
