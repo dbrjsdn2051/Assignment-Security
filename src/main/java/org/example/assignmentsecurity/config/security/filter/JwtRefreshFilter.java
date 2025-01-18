@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.assignmentsecurity.common.error.ErrorCode;
 import org.example.assignmentsecurity.common.error.SecurityFilterChainException;
+import org.example.assignmentsecurity.common.format.ApiResult;
 import org.example.assignmentsecurity.config.security.AuthUser;
 import org.example.assignmentsecurity.config.security.JwtProvider;
 import org.example.assignmentsecurity.config.security.LoginAuthentication;
@@ -22,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class JwtRefreshFilter extends OncePerRequestFilter {
@@ -63,20 +65,18 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
         response.setStatus(HttpStatus.OK.value());
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(objectMapper.writeValueAsString(new RefreshJwtRespDto(accessToken)));
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResult.success(new RefreshJwtRespDto(accessToken))));
     }
 
     private String extractCookieFormToken(Cookie[] cookies) {
-        String refreshToken = Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals(JwtProvider.COOKIE_VALUE_PREFIX))
-                .findFirst()
-                .map(Cookie::getValue)
-                .map(token -> token.replace("%20", " "))
-                .orElse(null);
-
-        if (refreshToken == null) {
-            throw new SecurityFilterChainException(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
-        }
-        return refreshToken;
+        return Optional.ofNullable(cookies)
+                .map(Arrays::stream)
+                .flatMap(stream -> stream
+                        .filter(cookie -> cookie.getName().equals(JwtProvider.COOKIE_VALUE_PREFIX))
+                        .findFirst()
+                        .map(Cookie::getValue)
+                        .map(token -> token.replace("%20", " "))
+                )
+                .orElseThrow(() -> new SecurityFilterChainException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
     }
 }
