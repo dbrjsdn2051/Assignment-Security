@@ -3,6 +3,7 @@ package org.example.assignmentsecurity.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.assignmentsecurity.common.format.ApiResult;
 import org.example.assignmentsecurity.config.security.AuthUser;
+import org.example.assignmentsecurity.config.security.dto.LoginReqDto;
 import org.example.assignmentsecurity.controller.dto.rep.UserCreateRepDto;
 import org.example.assignmentsecurity.controller.dto.resp.UserCreateRespDto;
 import org.example.assignmentsecurity.controller.dto.resp.UserInfoRespDto;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserControllerDocs{
     private final UserService userService;
 
     @PostMapping("/auth/signup")
