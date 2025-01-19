@@ -56,19 +56,19 @@ public class OpenApiConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/v3/api-docs/**")
-                        .allowedOrigins("http://localhost:9090")
+                        .allowedOrigins("http://211.226.249.97:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true)
                         .maxAge(3600L);
 
                 registry.addMapping("/swagger-ui/**")
-                        .allowedOrigins("http://localhost:9090")
+                        .allowedOrigins("http://211.226.249.97:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true)
                         .maxAge(3600L);
 
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:9090")
+                        .allowedOrigins("http://211.226.249.97:8080")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true)
