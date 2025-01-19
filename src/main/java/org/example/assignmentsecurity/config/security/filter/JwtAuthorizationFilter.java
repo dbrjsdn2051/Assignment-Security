@@ -12,14 +12,18 @@ import org.example.assignmentsecurity.config.security.AuthUser;
 import org.example.assignmentsecurity.config.security.JwtProvider;
 import org.example.assignmentsecurity.config.security.LoginAuthentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     protected void doFilterInternal(
@@ -27,13 +31,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        if (request.getRequestURI().contains("/auth")) {
+        if (request.getRequestURI().contains("/auth") || isWhiteUri(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String tokenValue = request.getHeader(JwtProvider.AUTHENTICATION_HEADER_PREFIX);
-
+        log.info("token value {}", tokenValue);
         if (tokenValue == null) {
             throw new SecurityFilterChainException(ErrorCode.TOKEN_NOT_FOUND);
         }
@@ -45,5 +49,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         LoginAuthentication loginAuthentication = new LoginAuthentication(authUser);
         SecurityContextHolder.getContext().setAuthentication(loginAuthentication);
         filterChain.doFilter(request, response);
+    }
+
+    public boolean isWhiteUri(String requestUri) {
+        List<String> whiteUriList = List.of("/swagger-ui/**",
+                "/swagger-ui.html",
+                "/swagger-resources/**",
+                "/v3/api-docs/**",
+                "/webjars/**",
+                "/favicon.ico");
+
+        return whiteUriList.stream().anyMatch(pattern -> antPathMatcher.match(pattern, requestUri));
     }
 }
